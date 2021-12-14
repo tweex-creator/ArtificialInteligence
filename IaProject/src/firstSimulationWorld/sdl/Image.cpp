@@ -1,0 +1,95 @@
+#include "Image.h"
+#include <cassert>
+#include <iostream>
+using namespace std;
+
+// ============= CLASS IMAGE =============== //
+
+Image::Image():name("test") {
+    surface = nullptr;
+    texture = nullptr;
+    renderer = nullptr;
+    has_changed = true;
+
+}
+
+Image::~Image()
+{
+    SDL_DestroyTexture(this->texture);
+    SDL_FreeSurface(this->surface);
+    //cout <<" deleted: "<< name << endl;
+}
+
+
+void Image::loadFromFile(const char* filename, SDL_Renderer* renderer) {
+    strcpy_s(name, filename);
+    string nfn = string("../") + filename;
+    if (this->renderer != renderer) {
+        this->renderer = renderer;
+    }
+    SDL_DestroyTexture(this->texture);
+    SDL_FreeSurface(this->surface);
+
+    surface = IMG_Load(filename);
+
+    if (surface == nullptr) {
+        cout << "Error: cannot load " << filename << ". Trying " << nfn << endl;
+        surface = IMG_Load(nfn.c_str());
+        if (surface == nullptr) {
+            cout << "Error: cannot load " << nfn << ". Trying " << string("../") + nfn << endl;
+
+            nfn = string("../") + nfn;
+            surface = IMG_Load(nfn.c_str());
+        }
+    }
+    if (surface == nullptr) {
+        cout << "Error: cannot load " << nfn << endl;
+        SDL_Quit();
+        exit(1);
+    }
+
+    SDL_Surface* surfaceCorrectPixelFormat = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ARGB8888, 0);
+    SDL_FreeSurface(surface);
+    surface = surfaceCorrectPixelFormat;
+
+    texture = SDL_CreateTextureFromSurface(renderer, surfaceCorrectPixelFormat);
+    if (texture == nullptr) {
+        cout << "Error: problem to create the texture of " << filename << endl;
+        SDL_Quit();
+        exit(1);
+    }
+}
+
+void Image::loadFromCurrentSurface(SDL_Renderer* renderer) {
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (texture == nullptr) {
+        cout << "Error: problem to create the texture from surface " << endl;
+        SDL_Quit();
+        exit(1);
+    }
+}
+
+void Image::draw(SDL_Renderer* rendererI, const int& x, const int& y, const int& w, const int& h) {
+    int ok;
+    SDL_Rect r;
+    r.x = x;
+    r.y = y;
+    r.w = (w < 0) ? surface->w : w;
+    r.h = (h < 0) ? surface->h : h;
+
+    if (has_changed) {
+        ok = SDL_UpdateTexture(texture, nullptr, surface->pixels, surface->pitch);
+        assert(ok == 0);
+        has_changed = false;
+    }
+
+    ok = SDL_RenderCopy(rendererI, texture, nullptr, &r);
+    if (ok != 0) {
+        printf("SDL_draw failed: %s\n", SDL_GetError());
+    }
+    assert(ok == 0);
+}
+
+SDL_Texture* Image::getTexture() const { return texture; }
+
+void Image::setSurface(SDL_Surface* surf) { surface = surf; }
