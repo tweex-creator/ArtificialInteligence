@@ -1,6 +1,6 @@
 #include "EntiteDeBase.h"
 #include <math.h> 
-EntiteDeBase::EntiteDeBase(unsigned int id, mapIA* map):ENTITE(id)
+EntiteDeBase::EntiteDeBase(unsigned int id, mapIA* map):entity(id)
 {
 	this->map = map;
 	notMooving = 0;
@@ -47,7 +47,7 @@ EntiteDeBase::EntiteDeBase(unsigned int id, mapIA* map):ENTITE(id)
 
 }
 EntiteDeBase::~EntiteDeBase() {
-	ENTITE::~ENTITE();
+	entity::~entity();
 }
 void EntiteDeBase::boucle()
 {
@@ -57,7 +57,7 @@ void EntiteDeBase::boucle()
 		energie -= 1;
 		//cout << energie << endl;
 		
-		resetNeuronnes();
+		resetNeurons();
 		majEntree();
 		float resTournerD = findIDPtr(101)->getValue();
 		if (resTournerD >= 0.5) {
@@ -69,7 +69,7 @@ void EntiteDeBase::boucle()
 
 		}
 
-		resetNeuronnes();
+		resetNeurons();
 		majEntree();
 		float resTournerG = findIDPtr(102)->getValue();
 		if (resTournerG >= 0.5) {
@@ -80,7 +80,7 @@ void EntiteDeBase::boucle()
 			}
 		}
 
-		resetNeuronnes();
+		resetNeurons();
 		majEntree();
 		float resAvancer = findIDPtr(100)->getValue();
 		if(resAvancer >= 0.5) {
@@ -111,7 +111,7 @@ void EntiteDeBase::boucle()
 
 		
 
-		resetNeuronnes();
+		resetNeurons();
 		majEntree();
 		float resManger = findIDPtr(103)->getValue();
 		if (resManger >= 0.5) {
@@ -176,7 +176,7 @@ void EntiteDeBase::boucle()
 	lastPosX = posX;
 	lastPosY = posY;
 
-	resetNeuronnes();
+	resetNeurons();
 	majEntree();
 }
 
@@ -407,7 +407,7 @@ unsigned int EntiteDeBase::getPosY()
 
 map<string, string> EntiteDeBase::getData()
 {
-	std::map<string, string> res = ENTITE::getData();
+	std::map<string, string> res = entity::getData();
 	res["posX"] = to_string(posX);
 	res["posY"] = to_string(posY);
 	res["lastPosX"] = to_string(lastPosX);

@@ -4,7 +4,7 @@
 class caseMapIA {
 public:
 	caseMapIA();
-	vector<ENTITE*> entitePtr;
+	vector<entity*> entitePtr;
 	bool nourritureDispo;
 	void supprEntie(unsigned long id);
 };

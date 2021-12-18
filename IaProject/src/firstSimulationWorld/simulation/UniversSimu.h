@@ -16,8 +16,8 @@ public:
 	void setProportionNourriture(float);
 	void supprEntite(unsigned long id);
 	void supprEntite(unsigned long id, unsigned int x, unsigned int y);
-	ENTITE* findEntiteFromId(unsigned int id);
-	std::vector<ENTITE*> Ias;
+	entity* findEntiteFromId(unsigned int id);
+	std::vector<entity*> Ias;
 
 protected:
 	float proportionNourriture;

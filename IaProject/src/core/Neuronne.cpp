@@ -3,7 +3,7 @@
 neurons::neurons(unsigned long id):nbActivationFunctions(4)
 {
 	this->id = id;
-	activationFunction = activationFunctionTypes::tanhyperbolique;
+	activationFunctionType = activationFunctionTypes::tanhyperbolique;
 	valeur = 0;
 	reCalcul = true;
 }
@@ -16,7 +16,6 @@ void neurons::addInput(unsigned int id, float weight, neurons* ptr)
 	newInput.setInputPtr(ptr);
 
 	inputs.push_back(newInput);
-
 }
 
 float neurons::activationFunction(activationFunctionTypes activationFunctionParam, float val)
@@ -57,6 +56,32 @@ float neurons::activationFunction(activationFunctionTypes activationFunctionPara
 	return res;
 }
 
+float neurons::derivatedActivationFunction(activationFunctionTypes activationFunctionParam, float val)
+{
+	float res = 0;
+	if (activationFunctionParam == activationFunctionTypes::heaviside) {
+		res = 0;
+	}
+	else if (activationFunctionParam == activationFunctionTypes::sigmoide) {
+		float sigmoVal = activationFunction(activationFunctionTypes::sigmoide, val);
+		res = sigmoVal * (1 - sigmoVal);
+	}
+	else if (activationFunctionParam == activationFunctionTypes::tanhyperbolique) {
+		float tanhVal = activationFunction(activationFunctionTypes::tanhyperbolique, val);
+
+		res = 1-(tanhVal* tanhVal);
+	}
+	else if (activationFunctionParam == activationFunctionTypes::gauss) {
+		float gaussVal = activationFunction(activationFunctionTypes::gauss, val);
+
+		res = -2*val*gaussVal;
+	}
+	else if (activationFunctionParam == activationFunctionTypes::rampe) {	
+		res= 1;		
+	}
+	return res;
+}
+
 float neurons::getValue()
 {
 	if (reCalcul) {
@@ -67,19 +92,19 @@ float neurons::getValue()
 			nextValue += inputs[i].getInputPtr()->getValue() * inputs[i].getWeight();
 			sumInputsWeight += abs(inputs[i].getWeight());
 		}
-		valeur = activationFunction(activationFunction, nextValue/sumInputsWeight);
+		valeur = activationFunction(activationFunctionType, nextValue/sumInputsWeight);
 
 	}
 	return valeur;
 }
 
-void neurons::resetNeuronnes()
+void neurons::resetNeurons()
 {
 	
 	for (int i = 0; i < inputs.size(); i++) {
 		if (reCalcul == false) {
 			reCalcul = true;
-			inputs[i].getInputPtr()->resetNeuronnes();
+			inputs[i].getInputPtr()->resetNeurons();
 		}
 	}
 
@@ -87,12 +112,18 @@ void neurons::resetNeuronnes()
 
 void neurons::setActivationFunctionType(activationFunctionTypes activationFunctionParam)
 {
-		activationFunction = activationFunctionParam;
+		activationFunctionType = activationFunctionParam;
 }
 
 activationFunctionTypes neurons::getActivationFunctionType()
 {
-	return activationFunction;
+	return activationFunctionType;
+}
+
+float neurons::backPropagation(float expected)
+{
+	float err = valeur - expected;
+	return 0.0f;
 }
 
 unsigned long neurons::getId()
@@ -121,7 +152,7 @@ void neuronsEntre::setValeur(float valeur) {
 
 }
 
-void neuronsEntre::resetNeuronnes()
+void neuronsEntre::resetNeurons()
 {
 }
 

@@ -29,7 +29,7 @@ public:
 class hitBoxEntite: public hitBox {
 public:
     hitBoxEntite(const int& x1, const int& x2, const int& y1, const int& y2);
-    ENTITE* entite;
+    entity* entite;
 };
 
 class hitBoxNeurons : public hitBox {

@@ -7,7 +7,7 @@
 #include <map>
 using namespace std;
 class EntiteDeBase :
-    public ENTITE
+    public entity
 {
 public:
 	EntiteDeBase(unsigned int id, mapIA* map);

@@ -88,13 +88,17 @@ public:
 		de la derniere valeur calculé.
 		See: getValue();
 	*/
-	virtual void resetNeuronnes();
+	virtual void resetNeurons();
 
 	/**
 		retourne la valeur du neuronne calculée à partir des neuronnes d'entrées et de la fonction d'activation
 	*/
 	virtual float getValue();
 
+	/**
+		retourne la valeur du neuronne calculée à partir des neuronnes d'entrées et de la fonction d'activation
+	*/
+	virtual float backPropagation(float expected);
 	/**
 		Permet de recuperer l'identifiant du Neuronne
 	*/
@@ -117,6 +121,10 @@ public:
 		Applique la fonction d'activation du type passé en parametre sur la valeur val
 	*/
 	float activationFunction(activationFunctionTypes activationFunctionParam, float val);
+	/**
+		Applique la derivé de la fonction d'activation du type passé en parametre sur la valeur val
+	*/
+	float derivatedActivationFunction(activationFunctionTypes activationFunctionParam, float val);
 
 protected:
 
@@ -132,7 +140,7 @@ protected:
 	unsigned long id;
 
 	/**Le type d'activation du neuronne (voir activationFunction(...,...) */
-	activationFunctionTypes activationFunction;
+	activationFunctionTypes activationFunctionType;
 
 	/**Le nome de fonction d'activation disponible */
 	const unsigned short nbActivationFunctions;
@@ -152,7 +160,7 @@ public:
 
 protected:
 	float valeur = 0;
-	void resetNeuronnes();
+	void resetNeurons();
 };
 
 

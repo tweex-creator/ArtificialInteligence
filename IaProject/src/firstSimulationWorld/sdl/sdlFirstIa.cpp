@@ -239,7 +239,7 @@ void sdlFirstIa::affEntiteData()
         }
     }
     
-    ENTITE* entity = simu.univers.findEntiteFromId(trackedEntityId);
+    entity* entity = simu.univers.findEntiteFromId(trackedEntityId);
 
     SDL_SetRenderDrawColor(rendererEntiteData, 255, 255, 255, 255);
     SDL_RenderClear(rendererEntiteData);
@@ -312,7 +312,7 @@ void sdlFirstIa::affEntiteBrain()
         }
     }
 
-    ENTITE* entity = simu.univers.findEntiteFromId(trackedEntityId);
+    entity* entity = simu.univers.findEntiteFromId(trackedEntityId);
     SDL_SetRenderDrawColor(rendererEntiteBrain, 255, 255, 255, 255);
     SDL_RenderClear(rendererEntiteBrain);
     SDL_Color color;

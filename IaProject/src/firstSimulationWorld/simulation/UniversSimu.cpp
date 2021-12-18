@@ -79,7 +79,7 @@ void UniversSimu::supprEntite(unsigned long id, unsigned int x, unsigned int y)
 	}
 }
 
-ENTITE* UniversSimu::findEntiteFromId(unsigned int idEntite)
+entity* UniversSimu::findEntiteFromId(unsigned int idEntite)
 {
 	for (int i = 0; i < Ias.size(); i++){
 		if (Ias[i]->id == idEntite) {

@@ -1,7 +1,7 @@
 #include "entite.h"
 
 
-ENTITE::ENTITE(unsigned long id)
+entity::entity(unsigned long id)
 {
     this->id = id;
     mutationRate = 0;
@@ -13,7 +13,7 @@ ENTITE::ENTITE(unsigned long id)
 
 }
 
-ENTITE::~ENTITE()
+entity::~entity()
 {
     for (int i = 0; i < NeuronnesEntree.size(); i++) {
         delete NeuronnesEntree[i];
@@ -26,18 +26,18 @@ ENTITE::~ENTITE()
     }
 }
 
-void ENTITE::boucle()
+void entity::boucle()
 {  
 }
 
-void ENTITE::chargerARN(string arnStr)
+void entity::loadARN(string arnStr)
 {
     arnEntite.importerARN(arnStr);
-    chargerARN(arnEntite);
-    genererARN();
+    loadARN(arnEntite);
+    generateARN();
 }
 
-void ENTITE::chargerARN(ARN arnToLoad)
+void entity::loadARN(ARN arnToLoad)
 {
     ///GENERATION DES NEURONNES
     int nbNeuronne = arnToLoad.getNbNeuronneCache();
@@ -55,7 +55,7 @@ void ENTITE::chargerARN(ARN arnToLoad)
     }
 }
 
-void ENTITE::genererARN()
+void entity::generateARN()
 {
     arnEntite.clear();
     for (int i = 0; i < Neuronnes.size(); i++) {
@@ -76,9 +76,9 @@ void ENTITE::genererARN()
     }
 }
 
-void ENTITE::muter()
+void entity::muter()
 {
-    genererARN();
+    generateARN();
     vector<unsigned long> input;
     vector<unsigned long> output;
     for (int j = 0; j < NeuronnesEntree.size(); j++) {
@@ -98,7 +98,7 @@ void ENTITE::muter()
 
 }
 
-neuronsEntre* ENTITE::findIDPtrE(unsigned long id)
+neuronsEntre* entity::findIDPtrE(unsigned long id)
 {
     for (unsigned long i = 0; i < NeuronnesEntree.size(); i++) {
         if (NeuronnesEntree[i]->getId() == id) {
@@ -107,7 +107,7 @@ neuronsEntre* ENTITE::findIDPtrE(unsigned long id)
     }
 }
 
-neurons* ENTITE::findIDPtr(unsigned long id)
+neurons* entity::findIDPtr(unsigned long id)
 {
     for (unsigned long i = 0; i < Neuronnes.size(); i++) {
         if (Neuronnes[i]->getId() == id) {
@@ -131,14 +131,14 @@ neurons* ENTITE::findIDPtr(unsigned long id)
     return nullptr;
 }
 
-void ENTITE::resetNeuronnes()
+void entity::resetNeurons()
 {
     for (int i = 0; i < NeuronnesSortie.size(); i++){
-        NeuronnesSortie[i]->resetNeuronnes();        
+        NeuronnesSortie[i]->resetNeurons();        
     }
 }
 
-apparenceEntite ENTITE::getApparence()
+apparenceEntite entity::getApparence()
 {
     apparenceEntite apparence;
     apparence.apparenceChar = '$';
@@ -146,17 +146,17 @@ apparenceEntite ENTITE::getApparence()
     return apparence;
 }
 
-unsigned int ENTITE::getPosX()
+unsigned int entity::getPosX()
 {
     return 0;
 }
 
-unsigned int ENTITE::getPosY()
+unsigned int entity::getPosY()
 {
     return 0;
 }
 
-map<string, string> ENTITE::getData()
+map<string, string> entity::getData()
 {
     map<string, string> res;
     res["entityType"] = typeEntite;
@@ -175,7 +175,7 @@ map<string, string> ENTITE::getData()
     return res;
 }
 
-void ENTITE::addNeuronneEntree(unsigned int id, string name, activationFunctionTypes typeActivation)
+void entity::addNeuronneEntree(unsigned int id, string name, activationFunctionTypes typeActivation)
 {
     neuronsEntre* nouveauNeuronne = new neuronsEntre(id);
     nouveauNeuronne->name = name;
@@ -183,7 +183,7 @@ void ENTITE::addNeuronneEntree(unsigned int id, string name, activationFunctionT
     NeuronnesEntree.push_back(nouveauNeuronne);
 }
 
-void ENTITE::addNeuronneSortie(unsigned int id, string name, activationFunctionTypes typeActivation)
+void entity::addNeuronneSortie(unsigned int id, string name, activationFunctionTypes typeActivation)
 {
     neuronsSortie* nouveauNeuronne = new neuronsSortie(id);
     nouveauNeuronne->name = name;

@@ -11,25 +11,25 @@ struct apparenceEntite {
 };
 
 
-class ENTITE
+class entity
 {
 public:
 	/**
 		Intialise une entite avec un Id (qui ne peut pas être modifié par la suite)
 	*/
-	ENTITE(unsigned long id);
-	~ENTITE();
+	entity(unsigned long id);
+	~entity();
 	
 	/**
 	Crée les neuronnes et synapses de l'entite en fonction de l'ARN passée en parametre
 	*/
-	void chargerARN(string ARN);
-	void chargerARN(ARN ARN);
+	void loadARN(string ARN);
+	void loadARN(ARN ARN);
 
 	/**
 		Met a jour l'ARN de l'entite (see: arnEntite)
 	*/
-	void genererARN();
+	void generateARN();
 	
 	/**
 	Fait muter l'Arn de l'entite
@@ -60,7 +60,7 @@ public:
 	/**
 		Remet a zero l'ensembles des neuronnes de sortie de l'entite et donc par propagation l'ensemble des neuronnes utilisés par l'entité
 	*/
-	void resetNeuronnes();
+	void resetNeurons();
 
 	/**
 		A definir pour chaque type d'entite(classe herité de neurons). cette fonction definit l'ensemblre

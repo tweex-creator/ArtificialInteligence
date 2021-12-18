@@ -96,7 +96,7 @@ void simulation::repopulerFromBestARN()
 	for (int i = 0; i < NBIA; i++) {
 		EntiteDeBase* nouvelleEntite = new EntiteDeBase(i, &univers.carte);
 		univers.Ias.push_back(nouvelleEntite);
-		univers.Ias[i]->chargerARN(bestArn[i % bestArn.size()]);
+		univers.Ias[i]->loadARN(bestArn[i % bestArn.size()]);
 		nbMoySyn += univers.Ias[i]->arnEntite.getNbSynapse();
 		nbMoyNe += univers.Ias[i]->arnEntite.getNbNeuronneCache();
 	}
@@ -112,7 +112,7 @@ void simulation::repopulerRandomARN()
 		EntiteDeBase* nouvelleEntite = new EntiteDeBase(i, &univers.carte);
 		string arn = ARNgenerator(nouvelleEntite->nbNeuronneCachePrevu, nouvelleEntite->nbSynapsesPrevu, nouvelleEntite->inputN, nouvelleEntite->outputN);
 		univers.Ias.push_back(nouvelleEntite);
-		univers.Ias[i]->chargerARN(arn);
+		univers.Ias[i]->loadARN(arn);
 	}
 
 }
